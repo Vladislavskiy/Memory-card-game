@@ -8,6 +8,14 @@ module.exports = {
     filename: 'index_bundle.js',
     clean: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
