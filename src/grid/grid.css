@@ -1,5 +1,5 @@
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100vh;
+    display: grid;
+    gap: 10px;
+    margin: 0 auto;
 }

@@ -12,17 +12,9 @@ export class GridView extends EventEmitter {
     }
 
     renderGrid(width, height, numberOfColumns, cards) {
-        const cardsHTML = cards.reduce((acc, id, i) => {
-            acc.push(getCardHTML(id));
+        const cardsHTML = cards.map(getCardHTML).join('');
 
-            if ((i+1) % (numberOfColumns) === 0) {
-                acc.push('<li class="break"></li>');
-            }
-
-            return acc;
-        }, []).join('');
-
-        document.body.insertAdjacentHTML('beforeend', `<ul class="grid">${cardsHTML}</ul>`)
+        document.body.insertAdjacentHTML('beforeend', `<ul class="grid" style="width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);">${cardsHTML}</ul>`)
     }
 
     addListener() {
@@ -55,6 +47,8 @@ export class GridView extends EventEmitter {
     remove() {
         document.querySelectorAll('.card_flipped').forEach(el => {
             el.classList.add('card_empty');
+
+            el.classList.remove('card_flipped');
         });
     }
 }
