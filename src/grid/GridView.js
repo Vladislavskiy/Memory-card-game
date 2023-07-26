@@ -1,6 +1,7 @@
 import './grid.css';
 import { EventEmitter } from '../utils';
 import { getCardHTML } from '/src/card/CardView';
+import { SUITS } from '../constants';
 
 export class GridView extends EventEmitter {
     intervalId;
@@ -37,6 +38,10 @@ export class GridView extends EventEmitter {
                 this.emit('cardClick', cardEl.dataset.id);
 
                 const card = this.model.getCard(cardEl.dataset.id);
+
+                if (card.suit === SUITS.DIAMOND || card.suit === SUITS.HEART) {
+                    cardEl.classList.add('card_red')
+                }
 
                 if (card) {
                     cardEl.querySelector('.card__rank').innerText = card.rank;
