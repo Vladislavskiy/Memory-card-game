@@ -60,7 +60,7 @@ export class GridView extends EventEmitter {
             el.querySelector('.card__rank').innerText = '';
             el.querySelector('.card__suit').innerText = '';
 
-            el.classList.remove('card_flipped');
+            el.classList.remove('card_flipped', 'card_red');
         })
     }
 
@@ -68,7 +68,7 @@ export class GridView extends EventEmitter {
         document.querySelectorAll('.card_flipped').forEach(el => {
             el.classList.add('card_empty');
 
-            el.classList.remove('card_flipped');
+            el.classList.remove('card_flipped', 'card_red');
         });
     }
 
