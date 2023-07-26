@@ -8,7 +8,7 @@ const OPTIONS = {
     numberOfColumns: 4,
     numberOfRows: 4,
     // timeLimit: 10000,
-    theme: 'night',
+    // theme: 'night',
 }
 
 new GridController(OPTIONS, GridModel, GridView, DeckService);
