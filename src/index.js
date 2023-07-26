@@ -1,3 +1,6 @@
 import './index.css';
+import { GridView } from './grid/GridView';
 
-document.body.innerText = 'Hello world';
+const grid = new GridView();
+
+grid.renderGrid();
