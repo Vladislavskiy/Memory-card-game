@@ -1,10 +1,11 @@
 export class GridController {
-    constructor({ width, height, numberOfColumns, numberOfRows }, Model, View, DeckService) {
+    constructor(options, Model, View, DeckService) {
         this.deckServive = new DeckService();
-        this.startGame({ width, height, numberOfColumns, numberOfRows }, Model, View);
+        this.startGame(options, Model, View);
     }
 
-    startGame({ width, height, numberOfColumns, numberOfRows }, Model, View) {
+    startGame(options, Model, View) {
+        const { width, height, numberOfColumns, numberOfRows, timeLimit } = options;
         const cards = this.deckServive.getDeck(numberOfColumns * numberOfRows);
         const TRUTH_HASH = this.deckServive.TRUTH_HASH;
         const CARDS_HASH = this.deckServive.CARDS_HASH;
@@ -12,13 +13,15 @@ export class GridController {
         this.model = new Model(TRUTH_HASH, CARDS_HASH);
         this.view = new View(this.model);
 
-        this.view.renderGrid(width, height, numberOfColumns, cards);
+        this.view.renderGrid(width, height, numberOfColumns, !!timeLimit, cards);
         this.view.addListener();
 
-        this.addSubscriptions({ width, height, numberOfColumns, numberOfRows }, Model, View);
+        this.addSubscriptions(options, Model, View);
     }
 
     addSubscriptions(options, Model, View) {
+        const { timeLimit } = options;
+
         this.view.subscribe('cardClick', id => {
             console.log(id);
 
@@ -29,5 +32,15 @@ export class GridController {
             alert('You win!');
             this.startGame(options, Model, View);
         });
+
+        if (timeLimit) {
+            this.view.startTimer(timeLimit);
+
+            this.view.subscribe('timerFinished', () => {
+                alert('Game over!');
+                this.view.deleteGrid();
+                this.startGame(options, Model, View);
+            });
+        }
     }
 }

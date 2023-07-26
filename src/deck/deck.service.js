@@ -19,6 +19,9 @@ export class DeckService {
     getDeck(numberOfCards) {
         const half = [...this.DECK].sort(() => .5 - Math.random()).slice(0, numberOfCards / 2);
 
+        this.TRUTH_HASH = {};
+        this.CARDS_HASH = {};
+
         return half.reduce((acc, card) => {
             const firstId = this.uniqueId();
             const secondId = this.uniqueId();

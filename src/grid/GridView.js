@@ -3,19 +3,29 @@ import { EventEmitter } from '../utils';
 import { getCardHTML } from '/src/card/CardView';
 
 export class GridView extends EventEmitter {
+    intervalId;
+
     constructor(model) {
         super();
         this.model = model;
 
         this.model.subscribe('correct', this.remove);
         this.model.subscribe('false', this.close);
-        this.model.subscribe('win', this.deleteGrid);
+        this.model.subscribe('win', this.deleteGrid.bind(this));
     }
 
-    renderGrid(width, height, numberOfColumns, cards) {
+    renderGrid(width, height, numberOfColumns, timer, cards) {
         const cardsHTML = cards.map(getCardHTML).join('');
 
-        document.body.insertAdjacentHTML('beforeend', `<ul class="grid" style="width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);">${cardsHTML}</ul>`)
+        document.body.insertAdjacentHTML('beforeend', `
+            <div class="wrapper">
+                ${timer ? '<p id="timer">0:0</p>' : ''}
+                <ul
+                    class="grid"
+                    style="width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);"
+                >${cardsHTML}</ul>
+            </div>
+        `)
     }
 
     addListener() {
@@ -54,6 +64,27 @@ export class GridView extends EventEmitter {
     }
 
     deleteGrid() {
-        document.querySelector('.grid').remove();
+        document.querySelector('.wrapper').remove();
+        clearInterval(this.intervalId);
+    }
+
+    startTimer(timeLimit) {
+        const dateOfExpiration = new Date(Date.now() + timeLimit).getTime();
+
+        this.intervalId = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = dateOfExpiration - now;
+
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerText = minutes + ":" + seconds;
+
+            if (distance < 0) {
+                clearInterval(this.intervalId);
+                document.getElementById('timer').innerHTML = "00:00";
+                this.emit('timerFinished');
+            }
+        }, 1000);
     }
 }
