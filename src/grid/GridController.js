@@ -1,10 +1,10 @@
 export class GridController {
-    constructor(Model, View, width, height, numberOfColumns, numberOfRows, DeckService) {
+    constructor({ width, height, numberOfColumns, numberOfRows }, Model, View, DeckService) {
         this.deckServive = new DeckService();
-        this.startGame(Model, View, width, height, numberOfColumns, numberOfRows);
+        this.startGame({ width, height, numberOfColumns, numberOfRows }, Model, View);
     }
 
-    startGame(Model, View, width, height, numberOfColumns, numberOfRows) {
+    startGame({ width, height, numberOfColumns, numberOfRows }, Model, View) {
         const cards = this.deckServive.getDeck(numberOfColumns * numberOfRows);
         const TRUTH_HASH = this.deckServive.TRUTH_HASH;
         const CARDS_HASH = this.deckServive.CARDS_HASH;
@@ -15,10 +15,10 @@ export class GridController {
         this.view.renderGrid(width, height, numberOfColumns, cards);
         this.view.addListener();
 
-        this.addSubscriptions(Model, View, width, height, numberOfColumns, numberOfRows);
+        this.addSubscriptions({ width, height, numberOfColumns, numberOfRows }, Model, View);
     }
 
-    addSubscriptions(Model, View, width, height, numberOfColumns, numberOfRows) {
+    addSubscriptions(options, Model, View) {
         this.view.subscribe('cardClick', id => {
             console.log(id);
 
@@ -27,7 +27,7 @@ export class GridController {
 
         this.model.subscribe('win', () => {
             alert('You win!');
-            this.startGame(Model, View, width, height, numberOfColumns, numberOfRows);
+            this.startGame(options, Model, View);
         });
     }
 }
