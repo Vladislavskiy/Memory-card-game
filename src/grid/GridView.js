@@ -15,7 +15,7 @@ export class GridView extends EventEmitter {
         this.model.subscribe('win', this.deleteGrid.bind(this));
     }
 
-    renderGrid(width, height, numberOfColumns, timer, cards) {
+    renderGrid(width, height, numberOfColumns, timer, cards, theme) {
         const cardsHTML = cards.map(getCardHTML).join('');
 
         document.body.insertAdjacentHTML('beforeend', `
@@ -23,10 +23,14 @@ export class GridView extends EventEmitter {
                 ${timer ? '<p id="timer">0:0</p>' : ''}
                 <ul
                     class="grid"
-                    style="width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);"
+                    style="max-width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);"
                 >${cardsHTML}</ul>
             </div>
-        `)
+        `);
+
+        if (theme) {
+            document.querySelector('.wrapper').classList.add('wrapper_' + theme);
+        }
     }
 
     addListener() {

@@ -1,5 +1,25 @@
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+    padding-top: 15px;
+}
+
+.wrapper_night {
+    background-color: grey;
+}
+
+.wrapper_night > #timer {
+    color: white;
+}
+
 .grid {
     display: grid;
     gap: 10px;
-    margin: 15px auto 0 auto;
+    margin: 0 auto;
+}
+
+#timer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: bold;
 }

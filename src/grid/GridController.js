@@ -5,7 +5,7 @@ export class GridController {
     }
 
     startGame(options, Model, View) {
-        const { width, height, numberOfColumns, numberOfRows, timeLimit } = options;
+        const { width, height, numberOfColumns, numberOfRows, timeLimit, theme } = options;
         const cards = this.deckServive.getDeck(numberOfColumns * numberOfRows);
         const TRUTH_HASH = this.deckServive.TRUTH_HASH;
         const CARDS_HASH = this.deckServive.CARDS_HASH;
@@ -13,7 +13,7 @@ export class GridController {
         this.model = new Model(TRUTH_HASH, CARDS_HASH);
         this.view = new View(this.model);
 
-        this.view.renderGrid(width, height, numberOfColumns, !!timeLimit, cards);
+        this.view.renderGrid(width, height, numberOfColumns, !!timeLimit, cards, theme);
         this.view.addListener();
 
         this.addSubscriptions(options, Model, View);
