@@ -15,5 +15,4 @@ export const RANK = {
     QUEEN: 'Q',
     KING: 'K',
     ACE: 'A',
-    JOKER: 'Joker',
 }
