@@ -9,6 +9,7 @@ export class GridView extends EventEmitter {
 
         this.model.subscribe('correct', this.remove);
         this.model.subscribe('false', this.close);
+        this.model.subscribe('win', this.deleteGrid);
     }
 
     renderGrid(width, height, numberOfColumns, cards) {
@@ -50,5 +51,9 @@ export class GridView extends EventEmitter {
 
             el.classList.remove('card_flipped');
         });
+    }
+
+    deleteGrid() {
+        document.querySelector('.grid').remove();
     }
 }

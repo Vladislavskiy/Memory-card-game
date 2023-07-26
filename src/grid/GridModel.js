@@ -21,7 +21,15 @@ export class GridModel extends EventEmitter {
 
     check() {
         if (this.TRUTH_HASH[this.opened.join('')] || this.TRUTH_HASH[this.opened.reverse().join('')]) {
+
+            delete this.CARDS_HASH[this.opened[0]];
+            delete this.CARDS_HASH[this.opened[1]];
+
             this.emit('correct');
+
+            if (Object.keys(this.CARDS_HASH).length === 0) {
+                this.emit('win');
+            }
         } else {
             this.emit('false');
         }
