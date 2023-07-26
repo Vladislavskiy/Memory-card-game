@@ -4,5 +4,12 @@ export class GridController {
         this.view = new View(this.model);
 
         this.view.renderGrid(width, height, numberOfColumns, cards);
+        this.view.addListener();
+
+        this.view.subscribe('cardClick', id => {
+            console.log(id);
+
+            this.model.register(id);
+        });
     }
 }

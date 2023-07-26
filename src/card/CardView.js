@@ -6,8 +6,8 @@ export const getCardHTML = (id) => {
                     <div class="card__front">
                     </div>
                     <div class="card__back">
-                        <p>rank</p>
-                        <p>suit</p>
+                        <p class="card__rank">rank</p>
+                        <p class="card__suit">suit</p>
                     </div>
                 </div>
             </li>`;
