@@ -3,6 +3,7 @@ import { RANK, SUITS } from '../constants';
 export class DeckService {
     DECK = [];
     TRUTH_HASH = {};
+    CARDS_HASH = {};
 
     constructor() {
         Object.entries(RANK).forEach(([, rankValue]) => {
@@ -18,12 +19,15 @@ export class DeckService {
     getDeck(numberOfCards) {
         const half = [...this.DECK].sort(() => .5 - Math.random()).slice(0, numberOfCards / 2);
 
-        return half.reduce((acc, card, index) => {
+        return half.reduce((acc, card) => {
             const firstId = this.uniqueId();
             const secondId = this.uniqueId();
 
-            acc.push({ ...card, id: firstId});
-            acc.push({ ...card, id: secondId});
+            acc.push(firstId);
+            acc.push(secondId);
+
+            this.CARDS_HASH[firstId] = card;
+            this.CARDS_HASH[secondId] = card;
 
             this.TRUTH_HASH[firstId + secondId] = true;
 
