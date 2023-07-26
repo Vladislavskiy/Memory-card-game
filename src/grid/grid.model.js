@@ -1,4 +1,4 @@
-import { EventEmitter } from '../utils';
+import { EventEmitter } from '/src/utils';
 
 export class GridModel extends EventEmitter {
     opened = [];

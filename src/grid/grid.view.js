@@ -1,7 +1,7 @@
 import './grid.css';
-import { EventEmitter } from '../utils';
-import { getCardHTML } from '/src/card/CardView';
-import { SUITS } from '../constants';
+import { EventEmitter } from '/src/utils';
+import { getCardHTML } from '/src/card/card.view';
+import { SUITS } from '/src/constants';
 
 export class GridView extends EventEmitter {
     intervalId;

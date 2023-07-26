@@ -1,4 +1,4 @@
-import { RANK, SUITS } from '../constants';
+import { RANK, SUITS } from '/src/constants';
 
 export class DeckService {
     DECK = [];
