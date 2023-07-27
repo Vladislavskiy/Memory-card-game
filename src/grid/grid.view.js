@@ -82,22 +82,19 @@ export class GridView extends EventEmitter {
     }
 
     startTimer(timeLimit) {
-        const dateOfExpiration = new Date(Date.now() + timeLimit).getTime();
-
         this.intervalId = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = dateOfExpiration - now;
-
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString();
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString();
+            const minutes = Math.floor((timeLimit % (1000 * 60 * 60)) / (1000 * 60)).toString();
+            const seconds = Math.floor((timeLimit % (1000 * 60)) / 1000).toString();
 
             document.getElementById('timer').innerText = (minutes.length === 1 ? '0' + minutes : minutes) + ":" + (seconds.length === 1 ? '0' + seconds : seconds);
 
-            if (distance < 0) {
+            if (timeLimit < 0) {
                 clearInterval(this.intervalId);
                 document.getElementById('timer').innerHTML = "00:00";
                 this.emit('timerFinished');
             }
+
+            timeLimit -= 1000;
         }, 1000);
     }
 
