@@ -84,10 +84,10 @@ export class GridView extends EventEmitter {
             const now = new Date().getTime();
             const distance = dateOfExpiration - now;
 
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString();
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString();
 
-            document.getElementById('timer').innerText = minutes + ":" + seconds;
+            document.getElementById('timer').innerText = (minutes.length === 1 ? '0' + minutes : minutes) + ":" + (seconds.length === 1 ? '0' + seconds : seconds);
 
             if (distance < 0) {
                 clearInterval(this.intervalId);
