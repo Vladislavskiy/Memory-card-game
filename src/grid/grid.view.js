@@ -20,10 +20,14 @@ export class GridView extends EventEmitter {
 
         document.body.insertAdjacentHTML('beforeend', `
             <div class="wrapper">
-                ${timer ? '<p id="timer">0:0</p>' : ''}
+                ${timer ? '<p id="timer">00:00</p>' : ''}
                 <ul
                     class="grid"
-                    style="max-width: ${width || 500}px; height: ${height || 500}px; grid-template-columns: repeat(${numberOfColumns}, 1fr);"
+                    style="
+                        max-width: ${width || 500}px;
+                        height: ${height || 500}px;
+                        grid-template-columns: repeat(${numberOfColumns}, 1fr);
+                    "
                 >${cardsHTML}</ul>
             </div>
         `);
@@ -37,7 +41,7 @@ export class GridView extends EventEmitter {
         document.querySelector('.grid').addEventListener('click', (e) => {
             const cardEl = e.target.closest('.card');
 
-            if (cardEl && !cardEl.classList.contains('card_flipped') && !cardEl.classList.contains('card_empty') && !(document.querySelectorAll('.card_flipped').length > 1)) {
+            if (cardEl && this.cardIsNotFlipped(cardEl) && this.cardIsNotEmpty(cardEl) && this.noMoreThanOneCardOpened()) {
                 cardEl.classList.add('card_flipped');
                 this.emit('cardClick', cardEl.dataset.id);
 
@@ -95,5 +99,17 @@ export class GridView extends EventEmitter {
                 this.emit('timerFinished');
             }
         }, 1000);
+    }
+
+    cardIsNotFlipped(el) {
+        return !el.classList.contains('card_flipped');
+    }
+
+    cardIsNotEmpty(el) {
+        return !el.classList.contains('card_empty');
+    }
+
+    noMoreThanOneCardOpened() {
+        return !(document.querySelectorAll('.card_flipped').length > 1);
     }
 }
